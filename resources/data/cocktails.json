@@ -1,0 +1,108 @@
+[
+  {
+    "id": 1,
+    "name": "Мартини",
+    "description": "Классический коктейль из водки и вермута",
+    "alcoholBase": "Vodka",
+    "difficulty": "EASY",
+    "preparationTime": 5,
+    "imageUrl": "resources/images/martini.png",
+    "averageRating": 4.0,
+    "ingredients": [
+      {
+        "name": "Водка",
+        "quantity": 60.0,
+        "unit": "мл"
+      },
+      {
+        "name": "Сухой вермут",
+        "quantity": 10.0,
+        "unit": "мл"
+      },
+      {
+        "name": "Оливка",
+        "quantity": 1.0,
+        "unit": "шт"
+      }
+    ],
+    "preparationSteps": [
+      {
+        "stepNumber": 1,
+        "description": "Охладить коктейльный стакан",
+        "tips": "Заполните стакан льдом и холодной водой",
+        "duration": 30
+      },
+      {
+        "stepNumber": 2,
+        "description": "Добавить ингредиенты",
+        "tips": "Налейте водку и вермут в стакан",
+        "duration": 20
+      },
+      {
+        "stepNumber": 3,
+        "description": "Перемешать",
+        "tips": "Перемешивайте со льдом в течение 30 секунд",
+        "duration": 30
+      },
+      {
+        "stepNumber": 4,
+        "description": "Процедить",
+        "tips": "Процедите в охлажденный бокал",
+        "duration": 15
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Дайкири",
+    "description": "Освежающий коктейль с ромом и лимоном",
+    "alcoholBase": "Rum",
+    "difficulty": "EASY",
+    "preparationTime": 5,
+    "imageUrl": "resources/images/daiquiri.png",
+    "averageRating": 5.0,
+    "ingredients": [
+      {
+        "name": "Белый ром",
+        "quantity": 45.0,
+        "unit": "мл"
+      },
+      {
+        "name": "Свежевыжатый лимонный сок",
+        "quantity": 25.0,
+        "unit": "мл"
+      },
+      {
+        "name": "Сахарный сироп",
+        "quantity": 15.0,
+        "unit": "мл"
+      }
+    ],
+    "preparationSteps": [
+      {
+        "stepNumber": 1,
+        "description": "Добавить ингредиенты в шейкер",
+        "tips": "Используйте качественный свежий сок",
+        "duration": 20
+      },
+      {
+        "stepNumber": 2,
+        "description": "Заполнить льдом",
+        "tips": "Добавьте лед и закройте шейкер",
+        "duration": 15
+      },
+      {
+        "stepNumber": 3,
+        "description": "Встряхнуть",
+        "tips": "Встряхивайте в течение 10-15 секунд",
+        "duration": 15
+      },
+      {
+        "stepNumber": 4,
+        "description": "Процедить",
+        "tips": "Процедите в охлажденный бокал",
+        "duration": 10
+      }
+    ]
+  }
+]
