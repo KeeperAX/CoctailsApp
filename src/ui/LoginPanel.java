@@ -1,116 +1,118 @@
-package ui;
+package ui;  // Определение пакета: этот класс относится к компонентам пользовательского интерфейса
 
-import models.User;
-import utils.ValidationUtil;
+import models.User;  // Импорт класса User из пакета models, представляющего модель пользователя
+import utils.ValidationUtil;  // Импорт класса ValidationUtil из пакета utils для валидации данных
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
+import javax.swing.*;  // Импорт всех классов из пакета javax.swing для создания графического интерфейса Swing
+import java.awt.*;  // Импорт всех классов из пакета java.awt для базовых элементов GUI, таких как цвета и шрифты
+import java.awt.event.ActionEvent;  // Импорт класса ActionEvent из пакета java.awt.event для обработки событий действий
 
-public class LoginPanel extends JPanel {
-    private MainWindow mainWindow;
+public class LoginPanel extends JPanel {  // Объявление публичного класса LoginPanel, наследующего от JPanel (базовой панели в Swing)
 
-    private JTextField usernameField;
-    private JPasswordField passwordField;
-    private JButton loginButton;
-    private JButton registerButton;
-    private JLabel messageLabel;
+    private MainWindow mainWindow;  // Приватное поле: ссылка на главное окно приложения
 
-    public LoginPanel(MainWindow mainWindow) {
-        this.mainWindow = mainWindow;
-        initComponents();
+    // Приватные поля для UI-компонентов
+    private JTextField usernameField;  // Поле ввода для имени пользователя
+    private JPasswordField passwordField;  // Поле ввода для пароля (скрывает вводимые символы)
+    private JButton loginButton;  // Кнопка для входа
+    private JButton registerButton;  // Кнопка для перехода к регистрации
+    private JLabel messageLabel;  // Метка для отображения сообщений (например, ошибок)
+
+    public LoginPanel(MainWindow mainWindow) {  // Конструктор класса LoginPanel, принимающий главное окно
+        this.mainWindow = mainWindow;  // Инициализация ссылки на главное окно
+        initComponents();  // Вызов метода для инициализации компонентов
     }
 
-    private void initComponents() {
-        setLayout(new GridBagLayout());
-        setBackground(new Color(245, 245, 245));
+    private void initComponents() {  // Приватный метод для инициализации и размещения UI-компонентов
+        setLayout(new GridBagLayout());  // Установка менеджера компоновки GridBagLayout для гибкого размещения элементов
+        setBackground(new Color(245, 245, 245));  // Установка фонового цвета панели (светло-серый)
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        GridBagConstraints gbc = new GridBagConstraints();  // Создание объекта для настройки размещения элементов в GridBagLayout
+        gbc.insets = new Insets(10, 10, 10, 10);  // Установка отступов вокруг элементов (10 пикселей со всех сторон)
+        gbc.fill = GridBagConstraints.HORIZONTAL;  // Установка заполнения по горизонтали для элементов
 
         // Заголовок
-        JLabel titleLabel = new JLabel("🍹 Вход в Cocktail Manager");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        add(titleLabel, gbc);
+        JLabel titleLabel = new JLabel("🍹 Вход в Cocktail Manager");  // Создание метки с заголовком
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));  // Установка шрифта для заголовка (Arial, жирный, размер 24)
+        gbc.gridx = 0;  // Установка позиции по X (столбец 0)
+        gbc.gridy = 0;  // Установка позиции по Y (строка 0)
+        gbc.gridwidth = 2;  // Установка ширины в 2 столбца
+        add(titleLabel, gbc);  // Добавление заголовка на панель с заданными constraints
 
         // Username Label
-        JLabel usernameLabel = new JLabel("Имя пользователя:");
-        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        gbc.gridwidth = 1;
-        gbc.gridy = 1;
-        add(usernameLabel, gbc);
+        JLabel usernameLabel = new JLabel("Имя пользователя:");  // Создание метки для имени пользователя
+        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 12));  // Установка шрифта (Arial, обычный, размер 12)
+        gbc.gridwidth = 1;  // Сброс ширины на 1 столбец
+        gbc.gridy = 1;  // Установка позиции по Y (строка 1)
+        add(usernameLabel, gbc);  // Добавление метки
 
         // Username Field
-        usernameField = new JTextField(20);
-        usernameField.setFont(new Font("Arial", Font.PLAIN, 12));
-        gbc.gridx = 1;
-        add(usernameField, gbc);
+        usernameField = new JTextField(20);  // Создание поля ввода для имени пользователя (ширина 20 символов)
+        usernameField.setFont(new Font("Arial", Font.PLAIN, 12));  // Установка шрифта для поля
+        gbc.gridx = 1;  // Установка позиции по X (столбец 1)
+        add(usernameField, gbc);  // Добавление поля
 
         // Password Label
-        JLabel passwordLabel = new JLabel("Пароль:");
-        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        add(passwordLabel, gbc);
+        JLabel passwordLabel = new JLabel("Пароль:");  // Создание метки для пароля
+        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 12));  // Установка шрифта
+        gbc.gridx = 0;  // Установка позиции по X (столбец 0)
+        gbc.gridy = 2;  // Установка позиции по Y (строка 2)
+        add(passwordLabel, gbc);  // Добавление метки
 
         // Password Field
-        passwordField = new JPasswordField(20);
-        passwordField.setFont(new Font("Arial", Font.PLAIN, 12));
-        gbc.gridx = 1;
-        add(passwordField, gbc);
+        passwordField = new JPasswordField(20);  // Создание поля ввода для пароля (ширина 20 символов)
+        passwordField.setFont(new Font("Arial", Font.PLAIN, 12));  // Установка шрифта
+        gbc.gridx = 1;  // Установка позиции по X (столбец 1)
+        add(passwordField, gbc);  // Добавление поля
 
         // Message Label
-        messageLabel = new JLabel("");
-        messageLabel.setForeground(Color.RED);
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        add(messageLabel, gbc);
+        messageLabel = new JLabel("");  // Создание метки для сообщений (инициализирована пустой строкой)
+        messageLabel.setForeground(Color.RED);  // Установка цвета текста (красный для ошибок)
+        gbc.gridx = 0;  // Установка позиции по X (столбец 0)
+        gbc.gridy = 3;  // Установка позиции по Y (строка 3)
+        gbc.gridwidth = 2;  // Установка ширины в 2 столбца
+        add(messageLabel, gbc);  // Добавление метки
 
         // Login Button
-        loginButton = new JButton("Войти");
-        loginButton.setFont(new Font("Arial", Font.BOLD, 12));
-        loginButton.setBackground(new Color(76, 175, 80));
-        loginButton.setForeground(Color.WHITE);
-        loginButton.addActionListener(this::handleLogin);
-        gbc.gridy = 4;
-        add(loginButton, gbc);
+        loginButton = new JButton("Войти");  // Создание кнопки входа
+        loginButton.setFont(new Font("Arial", Font.BOLD, 12));  // Установка шрифта (жирный)
+        loginButton.setBackground(new Color(76, 175, 80));  // Установка фонового цвета (зеленый)
+        loginButton.setForeground(Color.WHITE);  // Установка цвета текста (белый)
+        loginButton.addActionListener(this::handleLogin);  // Добавление слушателя событий для обработки нажатия (ссылка на метод handleLogin)
+        gbc.gridy = 4;  // Установка позиции по Y (строка 4)
+        add(loginButton, gbc);  // Добавление кнопки
 
         // Register Button
-        registerButton = new JButton("Создать аккаунт");
-        registerButton.setFont(new Font("Arial", Font.BOLD, 12));
-        registerButton.setBackground(new Color(33, 150, 243));
-        registerButton.setForeground(Color.WHITE);
-        registerButton.addActionListener(e -> mainWindow.showRegistrationPanel());
-        gbc.gridy = 5;
-        add(registerButton, gbc);
+        registerButton = new JButton("Создать аккаунт");  // Создание кнопки регистрации
+        registerButton.setFont(new Font("Arial", Font.BOLD, 12));  // Установка шрифта
+        registerButton.setBackground(new Color(33, 150, 243));  // Установка фонового цвета (синий)
+        registerButton.setForeground(Color.WHITE);  // Установка цвета текста
+        registerButton.addActionListener(e -> mainWindow.showRegistrationPanel());  // Добавление слушателя: переход к панели регистрации
+        gbc.gridy = 5;  // Установка позиции по Y (строка 5)
+        add(registerButton, gbc);  // Добавление кнопки
     }
 
-    private void handleLogin(ActionEvent e) {
-        String username = usernameField.getText().trim();
-        String password = new String(passwordField.getPassword());
+    private void handleLogin(ActionEvent e) {  // Приватный метод для обработки события входа
+        String username = usernameField.getText().trim();  // Получение имени пользователя из поля (удаление пробелов)
+        String password = new String(passwordField.getPassword());  // Получение пароля из поля (как строка)
 
-        if (!ValidationUtil.isNotEmpty(username) || !ValidationUtil.isNotEmpty(password)) {
-            messageLabel.setText("Заполните все поля");
-            return;
+        if (!ValidationUtil.isNotEmpty(username) || !ValidationUtil.isNotEmpty(password)) {  // Проверка, заполнены ли поля
+            messageLabel.setText("Заполните все поля");  // Отображение сообщения об ошибке
+            return;  // Выход из метода
         }
 
-        User user = mainWindow.getUserService().loginUser(username, password);
-        if (user != null) {
-            messageLabel.setText("");
-            clearFields();
-            mainWindow.login(user);
-        } else {
-            messageLabel.setText("Неверное имя пользователя или пароль");
+        User user = mainWindow.getUserService().loginUser(username, password);  // Вызов сервиса для входа пользователя
+        if (user != null) {  // Если пользователь найден
+            messageLabel.setText("");  // Очистка сообщения
+            clearFields();  // Очистка полей ввода
+            mainWindow.login(user);  // Вызов метода входа в главном окне
+        } else {  // Если вход неудачный
+            messageLabel.setText("Неверное имя пользователя или пароль");  // Отображение ошибки
         }
     }
 
-    private void clearFields() {
-        usernameField.setText("");
-        passwordField.setText("");
+    private void clearFields() {  // Приватный метод для очистки полей ввода
+        usernameField.setText("");  // Очистка поля имени пользователя
+        passwordField.setText("");  // Очистка поля пароля
     }
 }

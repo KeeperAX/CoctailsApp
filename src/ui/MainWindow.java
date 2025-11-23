@@ -1,138 +1,141 @@
-package ui;
+package ui;  // Определение пакета: этот класс относится к компонентам пользовательского интерфейса
 
-import services.CocktailService;
-import services.DatabaseService;
-import services.SearchService;
-import services.UserService;
-import models.User;
+import services.CocktailService;  // Импорт класса CocktailService из пакета services для управления коктейлями
+import services.DatabaseService;  // Импорт класса DatabaseService из пакета services для взаимодействия с базой данных
+import services.SearchService;  // Импорт класса SearchService из пакета services для функций поиска
+import services.UserService;  // Импорт класса UserService из пакета services для управления пользователями
+import models.User;  // Импорт класса User из пакета models, представляющего модель пользователя
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.*;  // Импорт всех классов из пакета javax.swing для создания графического интерфейса Swing
+import java.awt.*;  // Импорт всех классов из пакета java.awt для базовых элементов GUI, таких как цвета и шрифты
 
-public class MainWindow extends JFrame {
-    private DatabaseService databaseService;
-    private CocktailService cocktailService;
-    private SearchService searchService;
-    private UserService userService;
+public class MainWindow extends JFrame {  // Объявление публичного класса MainWindow, наследующего от JFrame (основного окна в Swing)
 
-    private CardLayout cardLayout;
-    private JPanel cardPanel;
+    // Поля класса: приватные сервисы для взаимодействия с данными
+    private DatabaseService databaseService;  // Сервис для работы с базой данных
+    private CocktailService cocktailService;  // Сервис для управления коктейлями
+    private SearchService searchService;  // Сервис для поиска
+    private UserService userService;  // Сервис для управления пользователями
 
-    private User currentUser = null;
+    // Приватные поля для управления интерфейсом
+    private CardLayout cardLayout;  // Layout для переключения между панелями (как карты в колоде)
+    private JPanel cardPanel;  // Главная панель, содержащая все подпанели
 
-    // UI Components
-    private LoginPanel loginPanel;
-    private RegistrationPanel registrationPanel;
-    private CocktailListPanel cocktailListPanel;
-    private SearchPanel searchPanel;
-    private UserProfilePanel userProfilePanel;
+    private User currentUser = null;  // Текущий авторизованный пользователь (инициализируется как null)
 
-    public MainWindow() {
+    // UI-компоненты: приватные панели для разных экранов приложения
+    private LoginPanel loginPanel;  // Панель для входа
+    private RegistrationPanel registrationPanel;  // Панель для регистрации
+    private CocktailListPanel cocktailListPanel;  // Панель со списком коктейлей
+    private SearchPanel searchPanel;  // Панель для поиска
+    private UserProfilePanel userProfilePanel;  // Панель профиля пользователя
+
+    public MainWindow() {  // Конструктор класса MainWindow
         // Инициализация сервисов
-        this.databaseService = new DatabaseService();
-        this.cocktailService = new CocktailService(databaseService);
-        this.searchService = new SearchService(databaseService);
-        this.userService = new UserService(databaseService);
+        this.databaseService = new DatabaseService();  // Создание экземпляра сервиса базы данных
+        this.cocktailService = new CocktailService(databaseService);  // Создание сервиса коктейлей с передачей базы данных
+        this.searchService = new SearchService(databaseService);  // Создание сервиса поиска с передачей базы данных
+        this.userService = new UserService(databaseService);  // Создание сервиса пользователей с передачей базы данных
 
         // Настройка главного окна
-        setTitle("🍹 Cocktail Manager - Управление коктейлями");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 700);
-        setLocationRelativeTo(null);
-        setResizable(true);
+        setTitle("🍹 Cocktail Manager - Управление коктейлями");  // Установка заголовка окна
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // Установка поведения при закрытии: выход из приложения
+        setSize(900, 700);  // Установка размеров окна (ширина 900, высота 700)
+        setLocationRelativeTo(null);  // Центрирование окна на экране
+        setResizable(true);  // Разрешение изменения размера окна
 
-        // Установка внешнего вида
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Установка внешнего вида интерфейса
+        try {  // Попытка установить системный вид и стиль
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());  // Установка стиля, соответствующего ОС
+        } catch (Exception e) {  // Обработка исключений, если установка стиля не удалась
+            e.printStackTrace();  // Вывод стека трассировки ошибки
         }
 
         // Создание главной панели с CardLayout
-        cardLayout = new CardLayout();
-        cardPanel = new JPanel(cardLayout);
+        cardLayout = new CardLayout();  // Инициализация CardLayout
+        cardPanel = new JPanel(cardLayout);  // Создание панели с использованием CardLayout
 
-        // Создание и добавление панелей
-        loginPanel = new LoginPanel(this);
-        registrationPanel = new RegistrationPanel(this);
-        cocktailListPanel = new CocktailListPanel(this);
-        searchPanel = new SearchPanel(this);
-        userProfilePanel = new UserProfilePanel(this);
+        // Создание и добавление панелей в cardPanel
+        loginPanel = new LoginPanel(this);  // Создание панели входа с передачей текущего окна
+        registrationPanel = new RegistrationPanel(this);  // Создание панели регистрации
+        cocktailListPanel = new CocktailListPanel(this);  // Создание панели списка коктейлей
+        searchPanel = new SearchPanel(this);  // Создание панели поиска
+        userProfilePanel = new UserProfilePanel(this);  // Создание панели профиля
 
-        cardPanel.add(loginPanel, "LOGIN");
-        cardPanel.add(registrationPanel, "REGISTRATION");
-        cardPanel.add(cocktailListPanel, "COCKTAIL_LIST");
-        cardPanel.add(searchPanel, "SEARCH");
-        cardPanel.add(userProfilePanel, "PROFILE");
+        cardPanel.add(loginPanel, "LOGIN");  // Добавление панели входа с идентификатором "LOGIN"
+        cardPanel.add(registrationPanel, "REGISTRATION");  // Добавление панели регистрации
+        cardPanel.add(cocktailListPanel, "COCKTAIL_LIST");  // Добавление панели списка коктейлей
+        cardPanel.add(searchPanel, "SEARCH");  // Добавление панели поиска
+        cardPanel.add(userProfilePanel, "PROFILE");  // Добавление панели профиля
 
-        add(cardPanel);
+        add(cardPanel);  // Добавление главной панели в окно
 
         // Показать экран входа по умолчанию
-        cardLayout.show(cardPanel, "LOGIN");
+        cardLayout.show(cardPanel, "LOGIN");  // Переключение на панель "LOGIN"
 
-        setVisible(true);
+        setVisible(true);  // Сделать окно видимым
     }
 
-    // ===== NAVIGATION METHODS =====
+    // ===== NAVIGATION METHODS =====  // Раздел методов навигации между панелями
 
-    public void showLoginPanel() {
-        cardLayout.show(cardPanel, "LOGIN");
+    public void showLoginPanel() {  // Метод для показа панели входа
+        cardLayout.show(cardPanel, "LOGIN");  // Переключение на "LOGIN"
     }
 
-    public void showRegistrationPanel() {
-        cardLayout.show(cardPanel, "REGISTRATION");
+    public void showRegistrationPanel() {  // Метод для показа панели регистрации
+        cardLayout.show(cardPanel, "REGISTRATION");  // Переключение на "REGISTRATION"
     }
 
-    public void showCocktailListPanel() {
-        cocktailListPanel.refreshCocktails();
-        cardLayout.show(cardPanel, "COCKTAIL_LIST");
+    public void showCocktailListPanel() {  // Метод для показа панели списка коктейлей
+        cocktailListPanel.refreshCocktails();  // Обновление списка коктейлей
+        cardLayout.show(cardPanel, "COCKTAIL_LIST");  // Переключение на "COCKTAIL_LIST"
     }
 
-    public void showSearchPanel() {
-        searchPanel.refresh();
-        cardLayout.show(cardPanel, "SEARCH");
+    public void showSearchPanel() {  // Метод для показа панели поиска
+        searchPanel.refresh();  // Обновление панели поиска
+        cardLayout.show(cardPanel, "SEARCH");  // Переключение на "SEARCH"
     }
 
-    public void showProfilePanel() {
-        userProfilePanel.refreshProfile();
-        cardLayout.show(cardPanel, "PROFILE");
+    public void showProfilePanel() {  // Метод для показа панели профиля
+        userProfilePanel.refreshProfile();  // Обновление профиля
+        cardLayout.show(cardPanel, "PROFILE");  // Переключение на "PROFILE"
     }
 
-    // ===== USER AUTHENTICATION =====
+    // ===== USER AUTHENTICATION =====  // Раздел методов аутентификации пользователя
 
-    public void login(User user) {
-        this.currentUser = user;
-        showCocktailListPanel();
+    public void login(User user) {  // Метод для входа пользователя
+        this.currentUser = user;  // Установка текущего пользователя
+        showCocktailListPanel();  // Переход к списку коктейлей после входа
     }
 
-    public void logout() {
-        this.currentUser = null;
-        showLoginPanel();
+    public void logout() {  // Метод для выхода пользователя
+        this.currentUser = null;  // Сброс текущего пользователя
+        showLoginPanel();  // Переход к панели входа
     }
 
-    public User getCurrentUser() {
-        return currentUser;
+    public User getCurrentUser() {  // Геттер для получения текущего пользователя
+        return currentUser;  // Возврат текущего пользователя
     }
 
-    // ===== SERVICE GETTERS =====
+    // ===== SERVICE GETTERS =====  // Раздел геттеров для сервисов
 
-    public CocktailService getCocktailService() {
-        return cocktailService;
+    public CocktailService getCocktailService() {  // Геттер для сервиса коктейлей
+        return cocktailService;  // Возврат сервиса
     }
 
-    public SearchService getSearchService() {
-        return searchService;
+    public SearchService getSearchService() {  // Геттер для сервиса поиска
+        return searchService;  // Возврат сервиса
     }
 
-    public UserService getUserService() {
-        return userService;
+    public UserService getUserService() {  // Геттер для сервиса пользователей
+        return userService;  // Возврат сервиса
     }
 
-    public DatabaseService getDatabaseService() {
-        return databaseService;
+    public DatabaseService getDatabaseService() {  // Геттер для сервиса базы данных
+        return databaseService;  // Возврат сервиса
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MainWindow());
+    public static void main(String[] args) {  // Главный метод для запуска приложения
+        SwingUtilities.invokeLater(() -> new MainWindow());  // Запуск конструктора в потоке Swing для thread-safety
     }
 }

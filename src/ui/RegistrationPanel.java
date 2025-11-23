@@ -1,44 +1,51 @@
-package ui;
+package ui;  // Определение пакета: класс относится к пользовательскому интерфейсу
 
-import utils.ValidationUtil;
+import utils.ValidationUtil;  // Импорт утилиты для проверки корректности ввода (пустые поля, формат email, пароля и т.д.)
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
+import javax.swing.*;  // Импорт всех компонентов Swing
+import java.awt.*;        // Импорт базовых классов AWT (цвета, шрифты, компоновка и т.д.)
+import java.awt.event.ActionEvent;  // Импорт класса события нажатия на кнопку
 
-public class RegistrationPanel extends JPanel {
-    private MainWindow mainWindow;
+public class RegistrationPanel extends JPanel {  // Класс панели регистрации, наследуется от JPanel
 
-    private JTextField usernameField;
-    private JTextField emailField;
-    private JPasswordField passwordField;
-    private JPasswordField confirmPasswordField;
-    private JButton registerButton;
-    private JButton backButton;
+    private MainWindow mainWindow;  // Ссылка на главное окно приложения — нужна для переключения панелей
+
+    // Поля ввода
+    private JTextField usernameField;           // Поле для имени пользователя
+    private JTextField emailField;              // Поле для email
+    private JPasswordField passwordField;       // Поле для пароля
+    private JPasswordField confirmPasswordField; // Поле для подтверждения пароля
+
+    // Кнопки
+    private JButton registerButton;  // Кнопка «Зарегистрироваться»
+    private JButton backButton;      // Кнопка «Назад»
+
+    // Метка для вывода сообщений об ошибках/успехе
     private JLabel messageLabel;
 
+    // Конструктор — вызывается при создании панели
     public RegistrationPanel(MainWindow mainWindow) {
-        this.mainWindow = mainWindow;
-        initComponents();
+        this.mainWindow = mainWindow;   // Сохраняем ссылку на главное окно
+        initComponents();               // Инициализируем все элементы интерфейса
     }
 
-    private void initComponents() {
-        setLayout(new GridBagLayout());
-        setBackground(new Color(245, 245, 245));
+    private void initComponents() {  // Метод создания и размещения всех компонентов
+        setLayout(new GridBagLayout());                 // Используем гибкую сетку GridBagLayout
+        setBackground(new Color(245, 245, 245));        // Светло-серый фон
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10);        // Отступы вокруг всех элементов
+        gbc.fill = GridBagConstraints.HORIZONTAL;      // Растягивать элементы по горизонтали
 
         // Заголовок
         JLabel titleLabel = new JLabel("Регистрация нового пользователя");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 2;                              // Занимает два столбца
         add(titleLabel, gbc);
 
-        // Username
+        // Имя пользователя
         JLabel usernameLabel = new JLabel("Имя пользователя:");
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -59,7 +66,7 @@ public class RegistrationPanel extends JPanel {
         gbc.gridx = 1;
         add(emailField, gbc);
 
-        // Password
+        // Пароль
         JLabel passwordLabel = new JLabel("Пароль:");
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -69,7 +76,7 @@ public class RegistrationPanel extends JPanel {
         gbc.gridx = 1;
         add(passwordField, gbc);
 
-        // Confirm Password
+        // Подтверждение пароля
         JLabel confirmLabel = new JLabel("Подтвердить пароль:");
         gbc.gridx = 0;
         gbc.gridy = 4;
@@ -79,7 +86,7 @@ public class RegistrationPanel extends JPanel {
         gbc.gridx = 1;
         add(confirmPasswordField, gbc);
 
-        // Message Label
+        // Метка для сообщений
         messageLabel = new JLabel("");
         messageLabel.setForeground(Color.RED);
         gbc.gridx = 0;
@@ -87,64 +94,76 @@ public class RegistrationPanel extends JPanel {
         gbc.gridwidth = 2;
         add(messageLabel, gbc);
 
-        // Register Button
+        // Кнопка «Зарегистрироваться»
         registerButton = new JButton("Зарегистрироваться");
-        registerButton.setBackground(new Color(76, 175, 80));
+        registerButton.setBackground(new Color(76, 175, 80));   // Зелёный
         registerButton.setForeground(Color.WHITE);
-        registerButton.addActionListener(this::handleRegister);
+        registerButton.addActionListener(this::handleRegister); // Привязываем обработчик
         gbc.gridy = 6;
         add(registerButton, gbc);
 
-        // Back Button
+        // Кнопка «Назад»
         backButton = new JButton("Назад");
-        backButton.setBackground(new Color(158, 158, 158));
+        backButton.setBackground(new Color(158, 158, 158));    // Серый
         backButton.setForeground(Color.WHITE);
-        backButton.addActionListener(e -> mainWindow.showLoginPanel());
+        backButton.addActionListener(e -> mainWindow.showLoginPanel()); // Возврат на экран входа
         gbc.gridy = 7;
         add(backButton, gbc);
     }
 
+    // Обработчик нажатия кнопки «Зарегистрироваться»
     private void handleRegister(ActionEvent e) {
+        // Получаем и обрезаем введённые данные
         String username = usernameField.getText().trim();
-        String email = emailField.getText().trim();
+        String email    = emailField.getText().trim();
         String password = new String(passwordField.getPassword());
         String confirmPassword = new String(confirmPasswordField.getPassword());
 
-        // Валидация
+        // Проверка на пустые поля
         if (!ValidationUtil.isNotEmpty(username) || !ValidationUtil.isNotEmpty(email) ||
                 !ValidationUtil.isNotEmpty(password)) {
             messageLabel.setText("Заполните все поля");
             return;
         }
 
+        // Проверка совпадения паролей
         if (!password.equals(confirmPassword)) {
             messageLabel.setText("Пароли не совпадают");
             return;
         }
 
+        // Валидация имени пользователя
         if (!ValidationUtil.isValidUsername(username)) {
             messageLabel.setText("Username: 3-20 символов, буквы/цифры/_");
             return;
         }
 
+        // Валидация email
         if (!ValidationUtil.isValidEmail(email)) {
             messageLabel.setText("Некорректный email");
             return;
         }
 
+        // Валидация сложности пароля
         if (!ValidationUtil.isValidPassword(password)) {
             messageLabel.setText("Пароль: минимум 6 символов");
             return;
         }
 
-        // Регистрация
-        if (mainWindow.getUserService().registerUser(username, email, password)) {
+        // Попытка зарегистрировать пользователя через UserService
+        boolean success = mainWindow.getUserService().registerUser(username, email, password);
+
+        if (success) {
+            // Успешная регистрация
             messageLabel.setForeground(Color.GREEN);
             messageLabel.setText("Регистрация успешна! Перенаправление...");
+
+            // Автоматический переход на экран входа через 2 секунды
             Timer timer = new Timer(2000, e1 -> mainWindow.showLoginPanel());
-            timer.setRepeats(false);
+            timer.setRepeats(false);   // Выполнится только один раз
             timer.start();
         } else {
+            // Пользователь с таким именем уже существует
             messageLabel.setForeground(Color.RED);
             messageLabel.setText("Такой пользователь уже существует");
         }
